@@ -36,10 +36,13 @@ El sistema está organizado en **tres capas principales**:
 
 ### 3️⃣ Capa de Datos (`src/Datos`)
 - **Entidades**: Clases que modelan objetos del dominio (`Autor`, `Libro`, `Socio`, `Categoria`, `Prestamo`).  
-- **Gestores**: Administran las colecciones de entidades en memoria.  
-  - Utilizan el **patrón Singleton** para mantener un estado único de los datos.  
-  - Los gestores (`GestorAutores`, `GestorCategorias`, `GestorLibros`, `GestorSocios`, `GestorPrestamos`) heredan de `GestorBase`.  
-
+- **Gestores**: Administran las colecciones de entidades en memoria.
+- Los gestores (`GestorAutores`, `GestorCategorias`, `GestorLibros`, `GestorSocios`, `GestorPrestamos`) heredan de `GestorBase`. 
+- Utilizan el **patrón Singleton** para mantener un estado único de los datos.
+- Para el problema de **acceso centralizado** a los datos, donde múltiples partes del sistema podrían necesitar acceder y manipular la misma información (autores, libros, socios,categorias o prestamos)                      el patrón Singleton es una solución ideal.
+- El patrón Singleton garantiza que una clase tenga una **única instancia** en toda la aplicación y proporciona un punto de acceso global a ella.
+- Aplicado a este sistema, cada clase Gestor podría ser un Singleton. Esto aseguraría que, sin importar qué parte del código necesite la lista de autores, siempre accederá a la misma y única instancia del gestor de         autores. Esto evita tener múltiples objetos gestores que puedan tener datos inconsistentes entre sí, centralizando el manejo de los datos y ahorrando memoria.
+  
 ### 📁 <u>Estructura de Carpetas</u>:
 ```
 .
@@ -55,7 +58,7 @@ El sistema está organizado en **tres capas principales**:
 │   │   
 │   └── UI/
 └── tests/
-    ├── test_biblioteca_service.py
+    ├── test_bibliotecaService.py
     └── test_gestores.py
 ```
 - **`docs/`**: Contiene la documentación visual del proyecto, como el diagrama de entidades y el diagrama de clases.
@@ -87,7 +90,8 @@ Para verificar la integridad y el correcto funcionamiento de la lógica de negoc
   ```bash
   # Para las pruebas del servicio principal
   python -m unittest tests.test_bibliotecaService
-
+  ```
+  ```bash
   # Para las pruebas de los gestores de datos
   python -m unittest tests.test_gestores
   ```
